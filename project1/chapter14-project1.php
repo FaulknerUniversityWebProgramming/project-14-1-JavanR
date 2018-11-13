@@ -1,6 +1,10 @@
 <?php
 
-
+define('DBHOST', '');
+define('DBNAME', 'book');
+define('DBUSER', 'testuser');
+define('DBPASS', 'mypassword');
+define('DBCONNSTRING', 'mysql:dbname=book;charset=utf8mb4;');
 
 
 ?>
@@ -49,6 +53,20 @@
                          <?php  
                            /* programmatically loop though employees and display each
                               name as <li> element. */
+                            
+                            try {
+                              $pdo = new PDO(DBCONNSTRING, DBUSER, DBPASS);
+                              $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                              $sql = "SELECT FirstName, LastName FROM Employees ORDER BY LastName ASC";
+                              $result = $pdo->query($sql);
+                              while ($row = $result->fetch()) {
+                                echo "<li>" . $row['FirstName'] . " " . $row['LastName'] . "</li>";
+                              }
+                              $pdo = null;
+                            }
+                            catch (PDOException $e) {
+                              die($e->getMessage());
+                            }
                          ?>            
 
                     </ul>
