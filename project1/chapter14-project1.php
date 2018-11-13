@@ -57,10 +57,10 @@ define('DBCONNSTRING', 'mysql:dbname=book;charset=utf8mb4;');
                             try {
                               $pdo = new PDO(DBCONNSTRING, DBUSER, DBPASS);
                               $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                              $sql = "SELECT FirstName, LastName FROM Employees ORDER BY LastName ASC";
+                              $sql = "SELECT EmployeeID, FirstName, LastName FROM Employees ORDER BY LastName ASC";
                               $result = $pdo->query($sql);
                               while ($row = $result->fetch()) {
-                                echo "<li>" . $row['FirstName'] . " " . $row['LastName'] . "</li>";
+                                echo "<li><a href='http://internet-programming-javanrampersad35005.codeanyapp.com/Project_14_1/project1/chapter14-project1.php?employeeId=" . $row['EmployeeID'] . "'>" . $row['FirstName'] . " " . $row['LastName'] . "</a></li>";
                               }
                               $pdo = null;
                             }
