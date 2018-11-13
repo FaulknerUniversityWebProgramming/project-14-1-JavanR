@@ -105,6 +105,7 @@ define('DBCONNSTRING', 'mysql:dbname=book;charset=utf8mb4;');
                                 echo $row['Country'] . ", " . $row['Postal'] . "</br>";
                                 echo $row['Email'] . "</br>";
                               }
+                              $pdo = null;
                             }
                             catch (PDOException $e) {
                               die($e->getMessage());
@@ -131,7 +132,24 @@ define('DBCONNSTRING', 'mysql:dbname=book;charset=utf8mb4;');
                                   </thead>
                                   <tbody>
                                    
-                                    <?php /*  display TODOs  */ ?>
+                                    <?php /*  display TODOs  */
+                                      
+                                      $id = $_GET["employeeId"];
+                                      try {
+                                        $pdo = new PDO(DBCONNSTRING, DBUSER, DBPASS);
+                                        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                                        $sql = "SELECT ToDoID, EmployeeID, Status, Priority, DateBy, Description FROM EmployeeToDo WHERE EmployeeID=" . $id . " ORDER BY DateBy ASC";
+                                        $result = $pdo->query($sql);
+                                        while ($row = $result->fetch()) {
+                                          echo "<tr><td>" . $row['DateBy'] . "</td><td>" . $row['Status'] . "</td><td>" . $row['Priority'] . "</td><td>" . $row['Description'] . "</td></tr>";
+                                        }
+                                        $pdo = null;
+                                      }
+                                      catch (PDOException $e) {
+                                        die($e->getMessage());
+                                      }
+                                      
+                                    ?>
                             
                                   </tbody>
                                 </table>
