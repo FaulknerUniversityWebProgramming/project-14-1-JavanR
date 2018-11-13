@@ -90,6 +90,25 @@ define('DBCONNSTRING', 'mysql:dbname=book;charset=utf8mb4;');
                               
                            <?php   
                              /* display requested employee's information */
+                            
+                            $id = $_GET["employeeId"];
+                            try {
+                              $pdo = new PDO(DBCONNSTRING, DBUSER, DBPASS);
+                              $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                              $sql = "SELECT EmployeeID, FirstName, LastName, Address, City, Region, Country, Postal, Email FROM Employees WHERE EmployeeID=" . $id;
+                              $result = $pdo->query($sql);
+                              while ($row = $result->fetch()) {
+                                echo "<h2>" . $row['FirstName'] . " " . $row['LastName'] . "</h1>";
+                                echo "</br>";
+                                echo $row['Address'] . "</br>";
+                                echo $row['City'] . ", " . $row['Region'] . "</br>";
+                                echo $row['Country'] . ", " . $row['Postal'] . "</br>";
+                                echo $row['Email'] . "</br>";
+                              }
+                            }
+                            catch (PDOException $e) {
+                              die($e->getMessage());
+                            }
                            ?>
                            
          
